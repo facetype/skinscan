@@ -2,10 +2,10 @@
 
     class EmpireClient{
 
-        private $baseUrl = "";
+        private $baseUrl = "https://csgoempire.com/api/v2/trading/user/trades";
 
         public function GetPriceList(){
-            return $this->makeRequest("ENDPOINT_HERE");
+            return $this->makeRequest("https://csgoempire.com/api/v2/trading/user/trades");
 
         }
 
