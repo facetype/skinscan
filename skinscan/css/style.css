@@ -1,3 +1,24 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle, #00f0ffff, #00f00000); /* blue fade */
+  color: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+  height: 100vh;
+}
+
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+table {
+  color: black;
+}
+
+
+
 * {box-sizing:border-box}
 
 /* Slideshow container */
@@ -86,4 +107,75 @@
 @keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
+}
+
+/* ===== Arbitrage Table Styling ===== */
+
+#arbResults {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+  background-color: #1e1e1e;
+  color: #ddd;
+}
+
+#arbResults th {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+#arbResults td {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+#arbResults tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+#arbResults tr:nth-child(odd) {
+  background-color: #242424;
+}
+
+#arbResults tr:hover {
+  background-color: #3a3a3a;
+}
+
+.profit-positive {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.profit-negative {
+  color: #ff5555;
+  font-weight: bold;
+}
+
+table {
+  color: #ddd;
+}
+
+th {
+  position: relative;
+}
+
+th .arrow {
+  font-size: 12px;
+  margin-left: 5px;
+  visibility: hidden;
+}
+
+th.sorted .arrow {
+  visibility: visible;
+}
+
+th.asc .arrow::after {
+  content: "▲";
+}
+
+th.desc .arrow::after {
+  content: "▼";
 }

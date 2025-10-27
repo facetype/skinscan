@@ -1,1 +1,8 @@
-Deny from all
+<Files "fetch_and_store.php">
+    Order Deny,Allow
+    Deny from all
+    Allow from env=AllowAccess
+</Files>
+
+SetEnvIfNoCase Referer "^https://web01.usn.no/~270445" AllowAccess
+SetEnvIfNoCase Referer "^https://web01.usn.no/~270445" AllowAccess
