@@ -7,6 +7,7 @@ require_once __DIR__ . '/includes/header.php';
 <main class="container">
     <h1>Welcome to SkinScan!</h1>
     <p>Find and track CS2 Arbitrage possibilities!</p>
+    <p>Lag "Favourite items!", lagres i database</p>
     <p><a href="about.php">Go to About Page</a></p>
 
     <h2>Arbitrage Scanner</h2>

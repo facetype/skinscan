@@ -29,8 +29,26 @@ class EmpireClient {
     }
 
     public function GetPriceList() {
-        return $this->makeRequest("https://csgoempire.com/api/v2/trading/items?per_page=2500&page=1&auction=no");
+        $allItems = [];
+        $page = 1;
+        $perPage = 2500;
+    
+        while (true) {
+            $url = "https://csgoempire.com/api/v2/trading/items?per_page=$perPage&page=$page&auction=no";
+            $response = $this->makeRequest($url);
+    
+            if (!isset($response['data']) || count($response['data']) === 0) {
+                break;
+            }
+    
+            $allItems = array_merge($allItems, $response['data']);
+            $page++;
+            usleep(3000000); // 3sec
+        }
+    
+        return $allItems;
     }
+    
 
     private function makeRequest($endpoint, $auth = true) {
         $ch = curl_init();

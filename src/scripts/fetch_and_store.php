@@ -27,8 +27,7 @@ $csFloat = new CSFloatClient();
 $empire = new EmpireClient();
 
 $csFloatData = $csFloat->GetPriceList();
-$empireRaw = $empire->GetPriceList();
-$empireData = $empireRaw['data'] ?? [];
+$empireData = $empire->GetPriceList();
 
 
 function normalize_csfloat($item) {
