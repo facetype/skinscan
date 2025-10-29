@@ -2,11 +2,15 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 
+
+
+
 use Dotenv\Dotenv;
 
 class EmpireClient {
     private $baseUrl = "https://csgoempire.com/api/v2/trading/user/trades";
     private $apiKey;
+
 
     public function __construct() {
 
@@ -28,26 +32,28 @@ class EmpireClient {
         }
     }
 
-    public function GetPriceList() {
-        $allItems = [];
+    public function GetPriceListStream($callback) {
         $page = 1;
         $perPage = 2500;
     
         while (true) {
             $url = "https://csgoempire.com/api/v2/trading/items?per_page=$perPage&page=$page&auction=no";
             $response = $this->makeRequest($url);
+
     
-            if (!isset($response['data']) || count($response['data']) === 0) {
+            if (!isset($response['data']) || empty($response['data'])) {
                 break;
             }
+            foreach ($response['data'] as $item) {
+                $callback($item);
+            }
+            
     
-            $allItems = array_merge($allItems, $response['data']);
             $page++;
-            usleep(3000000); // 3sec
+            usleep(300000); // avoid rate limit
         }
-    
-        return $allItems;
     }
+    
     
 
     private function makeRequest($endpoint, $auth = true) {

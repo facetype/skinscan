@@ -27,7 +27,16 @@ $csFloat = new CSFloatClient();
 $empire = new EmpireClient();
 
 $csFloatData = $csFloat->GetPriceList();
-$empireData = $empire->GetPriceList();
+
+$norm_empire = [];
+$empire->GetPriceListStream(function($item) use (&$norm_empire) {
+    $normalized = normalize_empire($item);
+    if ($normalized !== null) {
+        $norm_empire[] = $normalized;
+    }
+});
+
+
 
 
 function normalize_csfloat($item) {
@@ -64,7 +73,6 @@ function normalize_empire($item) {
 
 
 $norm_float = array_map("normalize_csfloat", $csFloatData);
-$norm_empire = array_filter(array_map("normalize_empire", $empireData));
 
 
 
@@ -77,8 +85,12 @@ foreach ($norm_float as $item) {
 $empireIndex = [];
 foreach ($norm_empire as $item) {
     $normalizedName = normalizeName($item['market_hash_name']);
-    $empireIndex[$normalizedName] = $item;
+
+    if (!isset($empireIndex[$normalizedName]) || $item['min_price_cents'] < $empireIndex[$normalizedName]['min_price_cents']) {
+        $empireIndex[$normalizedName] = $item;
+    }
 }
+
 
 
 
