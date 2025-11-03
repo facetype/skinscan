@@ -1,7 +1,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(circle, #00f0ffff, #00f00000); /* blue fade */
-  color: #f5f5f5;
+  background: radial-gradient(circle, #00f0ffff, #00f000c0); /* blue fade */
+  color: #ab9c9c;
   margin: 0;
   padding: 20px;
   height: 100vh;
