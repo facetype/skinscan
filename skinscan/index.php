@@ -1,75 +1,24 @@
 <?php
 session_start();
-require_once __DIR__ . '/includes/header.php';
-require_once __DIR__ . '/../src/db/connection.php';
-
-// Handle login if form submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    // Sanitize input
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    if (empty($username) || empty($password)) {
-        $error = 'Please enter both username and password.';
-    } else {
-        try {
-
-            $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = :username LIMIT 1");
-            $stmt->execute(['username' => $username]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                session_regenerate_id(true);
-
-                // Store user info in session
-                $_SESSION['loggedin'] = true;
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-
-                header('Location: index.php');
-                exit;
-            } else {
-                $error = 'Invalid username or password.';
-            }
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            $error = 'An error occurred. Please try again later.';
-        }
-    }
-}
-
-// Handle logout
 if (isset($_GET['logout'])) {
-    $_SESSION = [];
-    if (ini_get("session.use_cookies")) {
-        setcookie(session_name(), '', time() - 42000, '/');
-    }
+    session_unset();
     session_destroy();
-    header('Location: index.php');
+    header("Location: /~270445/skinscan/login.html");
     exit;
 }
-?>
 
+require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/../src/db/connection.php';
+?>
 
 <script src="js/main.js"></script>
 
 <main class="container">
     <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
-        <!-- LOGIN FORM -->
+        <!-- REACT -->
         <h1>Login to SkinScan</h1>
-        <?php if (isset($error)): ?>
-            <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
-
-        <form method="POST" action="">
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
-
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
-
-            <button type="submit" name="login">Login</button>
-        </form>
+        <div id="login-root"></div>
+        <script type="module" src="js/loginApp.js"></script>
 
     <?php else: ?>
         <!-- LOGGED-IN VIEW -->
@@ -101,6 +50,4 @@ if (isset($_GET['logout'])) {
     <?php endif; ?>
 </main>
 
-<?php
-require_once __DIR__ . '/includes/footer.php';
-?>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -50,7 +50,8 @@ class EmpireClient {
             
     
             $page++;
-            usleep(300000); // avoid rate limit
+            usleep(300000);//avoiding rate limit
+
         }
     }
     
