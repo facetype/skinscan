@@ -1,19 +1,13 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-
-
-
-
 use Dotenv\Dotenv;
 
 class EmpireClient {
     private $baseUrl = "https://csgoempire.com/api/v2/trading/user/trades";
     private $apiKey;
 
-
     public function __construct() {
-
         $envPath = __DIR__;
         $parentPath = __DIR__ . '/../..';
 
@@ -35,48 +29,33 @@ class EmpireClient {
     public function GetPriceListStream($callback) {
         $page = 1;
         $perPage = 2500;
-    
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer " . $this->apiKey]);
+
         while (true) {
             $url = "https://csgoempire.com/api/v2/trading/items?per_page=$perPage&page=$page&auction=no";
-            $response = $this->makeRequest($url);
+            curl_setopt($ch, CURLOPT_URL, $url);
 
-    
+            $response = curl_exec($ch);
+            if (curl_errno($ch)) {
+                throw new Exception("cURL error: " . curl_error($ch));
+            }
+
+            $response = json_decode($response, true);
             if (!isset($response['data']) || empty($response['data'])) {
                 break;
             }
+
             foreach ($response['data'] as $item) {
                 $callback($item);
             }
-            
-    
+
             $page++;
-            usleep(300000);//avoiding rate limit
-
-        }
-    }
-    
-    
-
-    private function makeRequest($endpoint, $auth = true) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        if ($auth) {
-            $headers = [
-                "Authorization: Bearer " . $this->apiKey
-            ];
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        }
-
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            throw new Exception("cURL error: " . curl_error($ch));
+            usleep(150000);
         }
 
         curl_close($ch);
-
-        return json_decode($response, true);
     }
 }
