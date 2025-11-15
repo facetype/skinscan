@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const minValueInput = document.getElementById("minValue");
   const maxValueInput = document.getElementById("maxValue");
   const applyFiltersBtn = document.getElementById("applyFilters");
+  const maxProfitPercentage = document.getElementById("maxProfitPercentage");
   
 
 
@@ -84,6 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isNaN(maxVal) && maxVal > 0) {
       filtered = filtered.filter(item =>
         Math.min(item.empire_price, item.float_price) <= maxVal
+      );
+    }
+
+    // Max profit percentage
+    const maxProfitPerc = Number(maxProfitPercentage.value);
+    if (!isNaN(maxProfitPerc) && maxProfitPerc > 0) {
+      filtered = filtered.filter(item =>
+        item.profit_percent <= maxProfitPerc
       );
     }
 

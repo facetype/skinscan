@@ -18,6 +18,17 @@ table {
 }
 
 
+.filter-input {
+  background-color: #212529 !important;
+  color: #f8f9fa !important;
+  border: 1px solid #343a40 !important;
+}
+
+.filter-input::placeholder {
+  color: #adb5bd;
+}
+
+
 
 * {box-sizing:border-box}
 
