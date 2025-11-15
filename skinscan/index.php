@@ -11,7 +11,6 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../src/db/connection.php';
 ?>
 
-<script src="js/main.js"></script>
 
 <main class="container">
     <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
@@ -32,6 +31,30 @@ require_once __DIR__ . '/../src/db/connection.php';
         <button id="checkArb">Check Arbitrage</button>
         <p id="status" style="margin-top: 10px; font-weight: bold;"></p>
 
+
+        <div id="filters" style="margin: 20px 0;">
+            <label>
+                <input type="checkbox" id="excludeStattrak">
+                Exclude StatTrak
+            </label>
+
+            <label style="margin-left: 20px;">
+                Min Value ($):
+                <input type="number" id="minValue" placeholder="0" min="0">
+            </label>
+
+            <label style="margin-left: 20px;">
+                Max Value ($):
+                <input type="number" id="maxValue" placeholder="No limit" min="0">
+            </label>
+
+            <button id="applyFilters" style="margin-left: 20px;">Apply Filters</button>
+        </div>
+
+
+
+
+
         <table id="arbResults" class="arb-table">
             <thead>
                 <tr>
@@ -49,5 +72,7 @@ require_once __DIR__ . '/../src/db/connection.php';
         <p id="status"></p>
     <?php endif; ?>
 </main>
+
+<script src="js/main.js"></script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

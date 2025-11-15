@@ -45,6 +45,7 @@ function empireCoinsToUsdCents($coins) {
 $MIN_PROFIT_PERCENTAGE = 2;
 $MIN_QTY = 1;
 $MIN_VALUE = 100;
+$MAX_PROFT_PERCENTAGE = 100;
 
 $csFloat = new CSFloatClient();
 $empire = new EmpireClient();
@@ -118,7 +119,7 @@ foreach ($floatIndex as $name => $floatItem) {
             $profit = $floatPrice - $empirePrice;
             $profitPercent = ($profit / $empirePrice) * 100;
             //checking for profit, and minimum price
-            if ($profitPercent >= $MIN_PROFIT_PERCENTAGE && $empirePrice >= $MIN_VALUE) {
+            if ($profitPercent >= $MIN_PROFIT_PERCENTAGE && $empirePrice >= $MIN_VALUE && $profitPercent <= $MAX_PROFT_PERCENTAGE) {
                 $arbitrageOps[] = [
                     'direction' => 'Buy on Empire → Sell on Float',
                     'market_hash_name' => $floatItem['market_hash_name'],
@@ -136,7 +137,7 @@ foreach ($floatIndex as $name => $floatItem) {
             $profit = $empirePrice - $floatPrice;
             $profitPercent = ($profit / $floatPrice) * 100;
             //checking for profit, and minimum price
-            if ($profitPercent >= $MIN_PROFIT_PERCENTAGE && $floatPrice >= $MIN_VALUE) {
+            if ($profitPercent >= $MIN_PROFIT_PERCENTAGE && $floatPrice >= $MIN_VALUE && $profitPercent <= $MAX_PROFT_PERCENTAGE) {
                 $arbitrageOps[] = [
                     'direction' => 'Buy on Float → Sell on Empire',
                     'market_hash_name' => $floatItem['market_hash_name'],
