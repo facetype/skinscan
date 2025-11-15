@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.innerHTML = "";
 
     try {
-      const res = await fetch("../src/scripts/fetch_and_store.php");
+      const res = await fetch("../src/scripts/get_arbitrage.php");
       const data = await res.json();
       currentData = data;
 

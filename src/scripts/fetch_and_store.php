@@ -3,6 +3,8 @@ require_once __DIR__ . "/../services/cs_float_client.php";
 require_once __DIR__ . "/../services/csgo_empire_client.php";
 require_once __DIR__ . "/../db/connection.php";
 
+file_put_contents("/home/270445/cron_test.log", date("Y-m-d H:i:s") . " ran\n", FILE_APPEND);
+
 function normalizeName($name) {
 
     $normalized = mb_strtolower($name, 'UTF-8');
@@ -11,6 +13,27 @@ function normalizeName($name) {
     $normalized = preg_replace('/\s+/', ' ', $normalized);
     return $normalized;
 }
+
+function normalize_empire($item) {
+    if (is_object($item)) {
+        $item = (array)$item;
+    }
+    if (!is_array($item)) {
+        return null;
+    }
+
+    $coins = $item['purchase_price'] / 100;
+
+    return [
+        'market_hash_name' => $item['market_name'] ?? 'UNKNOWN',
+        'source' => 'empire',
+        'min_price_cents' => empireCoinsToUsdCents($coins),
+        'wear_name' => $item['wear_name'] ?? null,
+        'qty' => 1,
+        'timestamp' => time()
+    ];
+}
+
 
 function empireCoinsToUsdCents($coins) {
     $usd = $coins * 0.6143;   // 1 coin = 0.6143 USD
@@ -50,25 +73,6 @@ function normalize_csfloat($item) {
     ];
 }
 
-function normalize_empire($item) {
-    if (is_object($item)) {
-        $item = (array)$item;
-    }
-    if (!is_array($item)) {
-        return null;
-    }
-
-    $coins = $item['purchase_price'] / 100;
-
-    return [
-        'market_hash_name' => $item['market_name'] ?? 'UNKNOWN',
-        'source' => 'empire',
-        'min_price_cents' => empireCoinsToUsdCents($coins),
-        'wear_name' => $item['wear_name'] ?? null,
-        'qty' => 1,
-        'timestamp' => time()
-    ];
-}
 
 
 
@@ -146,6 +150,31 @@ foreach ($floatIndex as $name => $floatItem) {
         }
     }
 }
+
+// --- SAVE RESULTS TO DATABASE ---
+
+// Clear old table entries
+$pdo->exec("TRUNCATE arbitrage_ops");
+
+$stmtInsert = $pdo->prepare("
+    INSERT INTO arbitrage_ops 
+    (market_hash_name, wear_name, direction, empire_price, float_price, profit, profit_percent) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+");
+
+foreach ($arbitrageOps as $op) {
+    $stmtInsert->execute([
+        $op['market_hash_name'],
+        $op['wear_name'],
+        $op['direction'],
+        $op['empire_price'],
+        $op['float_price'],
+        $op['profit'],
+        $op['profit_percent']
+    ]);
+    
+}
+
 
 
 header('Content-Type: application/json');
