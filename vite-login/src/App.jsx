@@ -68,6 +68,13 @@ export default function App() {
             <button type="submit" className="login-button" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
+            <button type="button" className="register-button"
+              onClick={() => window.location.href = "/~270445/skinscan/register.php"}
+            >
+              Register
+            </button>
+
+
           </form>
         </div>
       </div>

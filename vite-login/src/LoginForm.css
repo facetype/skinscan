@@ -57,3 +57,21 @@
     font-weight: 700;
 
 }
+
+.register-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  .register-link a {
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .register-button {
+    margin-top: 18px;
+  }
+  
