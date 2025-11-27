@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const maxValueInput = document.getElementById("maxValue");
   const applyFiltersBtn = document.getElementById("applyFilters");
   const maxProfitPercentage = document.getElementById("maxProfitPercentage");
-  
+
 
 
   let currentData = []; // Store fetched data for sorting
@@ -181,19 +181,52 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderTable(data) {
     tbody.innerHTML = "";
     data.forEach(item => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${item.market_hash_name}</td>
-        <td>${item.wear_name ?? "N/A"}</td>
-        <td>${item.direction}</td>
-        <td>$${(item.empire_price / 100).toFixed(2)}</td>
-        <td>$${(item.float_price / 100).toFixed(2)}</td>
-        <td style="color:${item.profit > 0 ? 'green' : 'red'}">
-          $${(item.profit / 100).toFixed(2)}
-        </td>
-        <td>${item.profit_percent}%</td>
-      `;
-      tbody.appendChild(row);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.market_hash_name}</td>
+            <td>${item.wear_name ?? "N/A"}</td>
+            <td>${item.direction}</td>
+            <td>$${(item.empire_price / 100).toFixed(2)}</td>
+            <td>$${(item.float_price / 100).toFixed(2)}</td>
+            <td style="color:${item.profit > 0 ? 'green' : 'red'}">
+                $${(item.profit / 100).toFixed(2)}
+            </td>
+            <td>${item.profit_percent}%</td>
+
+            <td>
+                <span class="fav-star" data-name="${item.market_hash_name}" 
+                      style="cursor:pointer; font-size:18px;">☆</span>
+            </td>
+        `;
+        tbody.appendChild(row);
     });
+}
+
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("fav-star")) {
+      const star = e.target;
+      const itemName = star.dataset.name;
+
+      try {
+          const res = await fetch("/~270445/src/api/addFavorite.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ item: itemName })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+              star.textContent = "⭐";
+              star.style.color = "#FFD700";
+          } else {
+              alert("Could not save favorite: " + data.error);
+          }
+      } catch (err) {
+          alert("Network error: " + err);
+      }
   }
+});
+
+
+
 });

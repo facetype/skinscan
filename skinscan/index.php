@@ -26,8 +26,7 @@ require_once __DIR__ . '/../src/db/connection.php';
         <div class="mb-4">
             <h1 class="mb-3">Welcome to SkinScan, <?= htmlspecialchars($_SESSION['username']) ?>!</h1>
             <p>Find and track CS2 arbitrage opportunities!</p>
-            <p>Create “Favourite Items” (stored in database)</p>
-
+            
             <div class="mt-3">
                 <a href="about.php" class="btn btn-info btn-sm mr-2">About</a>
                 <a href="?logout=1" class="btn btn-danger btn-sm">Log Out</a>
@@ -88,6 +87,7 @@ require_once __DIR__ . '/../src/db/connection.php';
                         <th scope="col" data-sort="float_price">Float Price</th>
                         <th scope="col" data-sort="profit">Profit ($)</th>
                         <th scope="col" data-sort="profit_percent">Profit %</th>
+                        <th scope="col">Favorite</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -97,6 +97,14 @@ require_once __DIR__ . '/../src/db/connection.php';
     <?php endif; ?>
 
 </main>
+<style>
+.fav-star {
+    font-size: 20px;
+    color: #ffc107;
+    cursor: pointer;
+    display: inline-block;
+}
+</style>
 
 <script src="js/main.js"></script>
 
