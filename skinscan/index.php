@@ -36,20 +36,18 @@ require_once __DIR__ . '/../src/db/connection.php';
         <!-- SCANNER -->
         <h2 class="mb-3">Arbitrage Scanner</h2>
 
-        <button id="checkArb" class="btn btn-primary mb-3">Check Arbitrage</button>
-        <a class="btn btn-primary" href="favorites.php">View Favorites</a>
+        <div class="action-buttons mb-3">
+            <button id="checkArb" class="btn btn-primary">Check Arbitrage</button>
+            <a class="btn btn-primary" href="favorites.php">View Favorites</a>
+        </div>
+
         <p id="status" class="font-weight-bold"></p>
+
 
         <!-- FILTERS (DARK BOOTSTRAP STYLE) -->
         <div id="filters" class="p-3 mb-4 rounded" style="background:#212529;border:1px solid #343a40;">
             <div class="row g-3 align-items-end">
 
-                <div class="col-md-2">
-                    <div class="form-check">
-                        <input type="checkbox" id="excludeStattrak" class="form-check-input filter-input">
-                        <label class="form-check-label text-light" for="excludeStattrak">Exclude StatTrak</label>
-                    </div>
-                </div>
 
                 <div class="col-md-2">
                     <label class="form-label text-light" for="minValue">Min Value ($)</label>
@@ -71,6 +69,13 @@ require_once __DIR__ . '/../src/db/connection.php';
 
                 <div class="col-md-2">
                     <button id="applyFilters" class="btn btn-secondary btn-sm w-100">Apply Filters</button>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input type="checkbox" id="excludeStattrak" class="form-check-input filter-input">
+                        <label class="form-check-label text-light" for="excludeStattrak">Exclude StatTrak</label>
+                    </div>
                 </div>
 
             </div>
@@ -99,13 +104,15 @@ require_once __DIR__ . '/../src/db/connection.php';
 
 </main>
 <style>
-.fav-star {
-    font-size: 20px;
-    color: #ffc107;
-    cursor: pointer;
-    display: inline-block;
-}
+    .fav-star {
+        font-size: 20px;
+        color: #ffc107;
+        cursor: pointer;
+        display: inline-block;
+    }
 </style>
+
+<link rel="stylesheet" href="css/style.css">
 
 <script src="js/main.js"></script>
 

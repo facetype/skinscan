@@ -1,11 +1,14 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(circle, #00f0ffff, #00f000c0); /* blue fade */
+  background: url('../assets/background.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
   color: #ab9c9c;
   margin: 0;
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
 }
+
 
 
 .container {
@@ -189,4 +192,10 @@ th.asc .arrow::after {
 
 th.desc .arrow::after {
   content: "▼";
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
