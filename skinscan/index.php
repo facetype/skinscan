@@ -26,7 +26,7 @@ require_once __DIR__ . '/../src/db/connection.php';
         <div class="mb-4">
             <h1 class="mb-3">Welcome to SkinScan, <?= htmlspecialchars($_SESSION['username']) ?>!</h1>
             <p>Find and track CS2 arbitrage opportunities!</p>
-            
+
             <div class="mt-3">
                 <a href="about.php" class="btn btn-info btn-sm mr-2">About</a>
                 <a href="?logout=1" class="btn btn-danger btn-sm">Log Out</a>
@@ -37,6 +37,7 @@ require_once __DIR__ . '/../src/db/connection.php';
         <h2 class="mb-3">Arbitrage Scanner</h2>
 
         <button id="checkArb" class="btn btn-primary mb-3">Check Arbitrage</button>
+        <a class="btn btn-primary" href="favorites.php">View Favorites</a>
         <p id="status" class="font-weight-bold"></p>
 
         <!-- FILTERS (DARK BOOTSTRAP STYLE) -->
